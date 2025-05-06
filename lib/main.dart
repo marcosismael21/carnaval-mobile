@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/screens/RFSplashScreen.dart';
 import 'package:room_finder_flutter/store/AppStore.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
+import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 
 import 'package:room_finder_flutter/services/property_service.dart';
 
@@ -21,7 +21,6 @@ void main() async {
 
   runApp(const MyApp());
 
-  
   final service = PropertyService();
   try {
     // obtener todas las propiedades y mostrar JSON crudo
@@ -35,7 +34,6 @@ void main() async {
   } catch (e) {
     print('Error en servicios: \$e');
   }
-
 }
 
 class MyApp extends StatelessWidget {
@@ -52,7 +50,7 @@ class MyApp extends StatelessWidget {
         theme: AppThemeData.lightTheme,
         darkTheme: AppThemeData.darkTheme,
         themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
-        home: RFSplashScreen(),
+        home: RFHomeScreen(), // <-- Aquí se hace el cambio
       ),
     );
   }

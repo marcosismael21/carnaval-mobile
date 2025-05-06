@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
-import 'package:room_finder_flutter/components/RFHotelListComponent.dart';
+import 'package:room_finder_flutter/components/RFPropertyListComponent.dart';
 import 'package:room_finder_flutter/components/RFLocationComponent.dart';
 import 'package:room_finder_flutter/components/RFRecentUpdateComponent.dart';
 import 'package:room_finder_flutter/main.dart';
+import 'package:room_finder_flutter/models/PropertyModel.dart';
 import 'package:room_finder_flutter/models/RoomFinderModel.dart';
 import 'package:room_finder_flutter/screens/RFLocationViewAllScreen.dart';
 import 'package:room_finder_flutter/screens/RFRecentupdateViewAllScreen.dart';
 import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
-import 'package:room_finder_flutter/screens/RFViewAllHotelListScreen.dart';
+import 'package:room_finder_flutter/screens/RFViewAllPropertiesScreen.dart';
+import 'package:room_finder_flutter/services/property_service.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFString.dart';
@@ -22,22 +24,48 @@ class RFHomeFragment extends StatefulWidget {
 
 class _RFHomeFragmentState extends State<RFHomeFragment> {
   List<RoomFinderModel> categoryData = categoryList();
-  List<RoomFinderModel> hotelListData = hotelList();
   List<RoomFinderModel> locationListData = locationList();
-  //List<RoomFinderModel> recentUpdateData = recentUpdateList();
 
+  // Para los datos de nuestra API
+  List<Property> propertyListData = [];
+  bool isLoading = true;
+  String error = '';
+
+  PropertyService _propertyService = PropertyService();
   int selectCategoryIndex = 0;
-
   bool locationWidth = true;
 
   @override
   void initState() {
     super.initState();
     init();
+    fetchProperties();
   }
 
   void init() async {
-    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
+  }
+
+  Future<void> fetchProperties() async {
+    try {
+      setState(() {
+        isLoading = true;
+        error = '';
+      });
+
+      final properties = await _propertyService.getAllProperties();
+      setState(() {
+        propertyListData = properties;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        error = 'Error al cargar propiedades: $e';
+        isLoading = false;
+      });
+      print(error);
+    }
   }
 
   @override
@@ -56,22 +84,24 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Find a property anywhere', style: boldTextStyle(size: 18)),
+            Text('Encuentra una propiedad en cualquier lugar',
+                style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
               textFieldType: TextFieldType.EMAIL,
               decoration: rfInputDecoration(
-                hintText: "Search address or near you",
+                hintText: "Buscar dirección o cerca de ti",
                 showPreFixIcon: true,
                 showLableText: false,
-                prefixIcon: Icon(Icons.location_on, color: rf_primaryColor, size: 18),
+                prefixIcon:
+                    Icon(Icons.location_on, color: rf_primaryColor, size: 18),
               ),
             ),
             16.height,
             AppButton(
               color: rf_primaryColor,
               elevation: 0.0,
-              child: Text('Search Now', style: boldTextStyle(color: white)),
+              child: Text('Buscar Ahora', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
                 RFSearchDetailScreen().launch(context);
@@ -83,7 +113,8 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               },
               child: Align(
                 alignment: Alignment.topRight,
-                child: Text('Advance Search', style: primaryTextStyle(), textAlign: TextAlign.end),
+                child: Text('Búsqueda Avanzada',
+                    style: primaryTextStyle(), textAlign: TextAlign.end),
               ),
             )
           ],
@@ -115,7 +146,10 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: Text(
                       data.roomCategoryName.validate(),
-                      style: boldTextStyle(color: selectCategoryIndex == index ? rf_primaryColor : gray),
+                      style: boldTextStyle(
+                          color: selectCategoryIndex == index
+                              ? rf_primaryColor
+                              : gray),
                     ),
                   ),
                 );
@@ -124,35 +158,51 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Recently Added Properties', style: boldTextStyle()),
+                Text('Propiedades Recientemente Añadidas',
+                    style: boldTextStyle()),
                 TextButton(
                   onPressed: () {
-                    RFViewAllHotelListScreen().launch(context);
+                    RFViewAllPropertiesScreen(properties: propertyListData)
+                        .launch(context);
                   },
-                  child: Text('View All', style: secondaryTextStyle(decoration: TextDecoration.underline, textBaseline: TextBaseline.alphabetic)),
+                  child: Text('Ver Todo',
+                      style: secondaryTextStyle(
+                          decoration: TextDecoration.underline,
+                          textBaseline: TextBaseline.alphabetic)),
                 )
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: hotelListData.take(3).length,
-              itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = hotelListData[index];
-                return RFHotelListComponent(hotelData: data);
-              },
-            ),
+
+            // Mostrar indicador de carga o lista de propiedades
+            if (isLoading)
+              Center(child: CircularProgressIndicator(color: rf_primaryColor))
+            else if (error.isNotEmpty)
+              Center(child: Text(error, style: TextStyle(color: Colors.red)))
+            else
+              ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: propertyListData.take(3).length,
+                itemBuilder: (BuildContext context, int index) {
+                  Property data = propertyListData[index];
+                  return RFPropertyListComponent(propertyData: data);
+                },
+              ),
+/*
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Locations', style: boldTextStyle()),
+                Text('Ubicaciones', style: boldTextStyle()),
                 TextButton(
                   onPressed: () {
-                    RFLocationViewAllScreen(locationWidth: true).launch(context);
+                    RFLocationViewAllScreen(locationWidth: true)
+                        .launch(context);
                   },
-                  child: Text('View All', style: secondaryTextStyle(decoration: TextDecoration.underline)),
+                  child: Text('Ver Todo',
+                      style: secondaryTextStyle(
+                          decoration: TextDecoration.underline)),
                 )
               ],
             ).paddingOnly(left: 16, right: 16, bottom: 8),
@@ -160,32 +210,54 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               spacing: 16,
               runSpacing: 16,
               children: List.generate(locationListData.length, (index) {
-                return RFLocationComponent(locationData: locationListData[index]);
+                return RFLocationComponent(
+                    locationData: locationListData[index]);
               }),
             ),
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Recent Updates', style: boldTextStyle()),
+                Text('Propiedades Destacadas', style: boldTextStyle()),
                 TextButton(
                   onPressed: () {
-                    RFRecentUpdateViewAllScreen().launch(context);
+                    RFViewAllPropertiesScreen(
+                      properties: propertyListData
+                          .where((property) => property.isFeatured == 1)
+                          .toList(),
+                      title: "Propiedades Destacadas",
+                    ).launch(context);
                   },
-                  child: Text('See All', style: secondaryTextStyle(decoration: TextDecoration.underline)),
+                  child: Text('Ver Todo',
+                      style: secondaryTextStyle(
+                          decoration: TextDecoration.underline)),
                 )
               ],
             ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-            ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: hotelListData.take(3).length,
-              itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = hotelListData[index];
-                return RFRecentUpdateComponent(recentUpdateData: data);
-              },
-            ),
+
+            // Mostrar propiedades destacadas
+            if (isLoading)
+              Center(child: CircularProgressIndicator(color: rf_primaryColor))
+            else if (error.isNotEmpty)
+              Center(child: Text(error, style: TextStyle(color: Colors.red)))
+            else
+              ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: propertyListData
+                    .where((property) => property.isFeatured == 1)
+                    .take(3)
+                    .length,
+                itemBuilder: (BuildContext context, int index) {
+                  Property data = propertyListData
+                      .where((property) => property.isFeatured == 1)
+                      .toList()[index];
+                  return RFPropertyListComponent(propertyData: data);
+                },
+              ),
+              */
           ],
         ),
       ),

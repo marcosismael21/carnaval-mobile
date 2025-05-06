@@ -20,7 +20,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     RFHomeFragment(),
     RFSearchFragment(),
     RFSettingsFragment(),
-    RFAccountFragment(),
+    //RFAccountFragment(),
   ];
 
   Widget _bottomTab() {
@@ -47,11 +47,11 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
           label: 'Settings',
           activeIcon: rf_setting.iconImage(iconColor: rf_primaryColor, size: 22),
         ),
-        BottomNavigationBarItem(
+        /*BottomNavigationBarItem(
           icon: rf_person.iconImage(),
           label: 'Account',
           activeIcon: rf_person.iconImage(iconColor: rf_primaryColor),
-        ),
+        ),*/
       ],
     );
   }
