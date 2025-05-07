@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSearchFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';

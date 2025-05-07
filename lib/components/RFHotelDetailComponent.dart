@@ -8,7 +8,7 @@ import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class RFHotelDetailComponent extends StatelessWidget {
-  final List<RoomFinderModel> hotelImageData = hotelImageList();
+  final List<RoomFinderModel> hotelImageData = List.empty();
   final RoomFinderModel? hotelData;
 
   RFHotelDetailComponent({this.hotelData});

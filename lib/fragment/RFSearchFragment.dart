@@ -62,7 +62,8 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
                 lableText: "Enter an address or city",
                 showLableText: true,
                 showPreFixIcon: true,
-                prefixIcon: Icon(Icons.location_on, color: rf_primaryColor, size: 16),
+                prefixIcon:
+                    Icon(Icons.location_on, color: rf_primaryColor, size: 16),
               ),
             ),
             8.height,
@@ -75,7 +76,8 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
                 lableText: 'Enter price range',
                 showLableText: true,
                 showPreFixIcon: true,
-                prefixIcon: Icon(Icons.currency_rupee, color: rf_primaryColor, size: 16),
+                prefixIcon: Icon(Icons.currency_rupee,
+                    color: rf_primaryColor, size: 16),
               ),
             ),
             8.height,
@@ -114,7 +116,8 @@ class _RFSearchFragmentState extends State<RFSearchFragment> {
               children: List.generate(
                 locationListData.length,
                 (index) {
-                  return RFLocationComponent(locationData: locationListData[index]);
+                  return RFLocationComponent(
+                      locationData: locationListData[index]);
                 },
               ),
             ),

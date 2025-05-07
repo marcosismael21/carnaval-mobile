@@ -201,7 +201,7 @@ Widget rfCommonCachedNetworkImage(
 }
 
 Widget placeHolderWidget({double? height, double? width, BoxFit? fit, AlignmentGeometry? alignment, double? radius}) {
-  return Image.asset('images/app/placeholder.jpg', height: height, width: width, fit: fit ?? BoxFit.cover, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
+  return Image.asset('images/roomFinding/rf_call.png', height: height, width: width, fit: fit ?? BoxFit.cover, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
 }
 
 Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
@@ -279,7 +279,7 @@ Widget commonCacheImageWidget(String? url, double height, {double? width, BoxFit
 
 Widget? Function(BuildContext, String) placeholderWidgetFn() => (_, s) => placeholderWidget();
 
-Widget placeholderWidget() => Image.asset('images/app/placeholder.jpg', fit: BoxFit.cover);
+Widget placeholderWidget() => Image.asset('images/roomFinding/rf_call.png', fit: BoxFit.cover);
 
 Future<void> commonLaunchUrl(String address, {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
   await launchUrl(Uri.parse(address), mode: launchMode).catchError((e) {

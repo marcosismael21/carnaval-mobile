@@ -24,7 +24,8 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
   }
 
   void init() async {
-    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
   }
 
   @override
@@ -49,8 +50,11 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                 margin: EdgeInsets.only(top: 150),
                 width: 100,
                 height: 100,
-                decoration: boxDecorationWithRoundedCorners(boxShape: BoxShape.circle, border: Border.all(color: white, width: 4)),
-                child: rfCommonCachedNetworkImage(rf_user, fit: BoxFit.cover, width: 100, height: 100, radius: 150),
+                decoration: boxDecorationWithRoundedCorners(
+                    boxShape: BoxShape.circle,
+                    border: Border.all(color: white, width: 4)),
+                child: rfCommonCachedNetworkImage(rf_user,
+                    fit: BoxFit.cover, width: 100, height: 100, radius: 150),
               ),
               Positioned(
                 bottom: 8,
@@ -62,10 +66,16 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                     backgroundColor: context.cardColor,
                     boxShape: BoxShape.circle,
                     boxShadow: [
-                      BoxShadow(spreadRadius: 0.4, blurRadius: 3, color: gray.withOpacity(0.1), offset: Offset(1, 6)),
+                      BoxShadow(
+                          spreadRadius: 0.4,
+                          blurRadius: 3,
+                          color: gray.withOpacity(0.1),
+                          offset: Offset(1, 6)),
                     ],
                   ),
-                  child: Icon(Icons.add, color: appStore.isDarkModeOn ? white : rf_primaryColor, size: 16),
+                  child: Icon(Icons.add,
+                      color: appStore.isDarkModeOn ? white : rf_primaryColor,
+                      size: 16),
                 ),
               ),
             ],
@@ -81,7 +91,11 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
               children: [
                 Text('10 Applied', style: secondaryTextStyle()),
                 8.width,
-                Container(height: 10, width: 1, color: appStore.isDarkModeOn ? white : gray.withOpacity(0.4)),
+                Container(
+                    height: 10,
+                    width: 1,
+                    color:
+                        appStore.isDarkModeOn ? white : gray.withOpacity(0.4)),
                 8.width,
                 Text('Kathmandu', style: secondaryTextStyle()),
               ],
@@ -90,18 +104,23 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               decoration: boxDecorationWithRoundedCorners(
-                backgroundColor: appStore.isDarkModeOn ? scaffoldDarkColor : rf_selectedCategoryBgColor,
+                backgroundColor: appStore.isDarkModeOn
+                    ? scaffoldDarkColor
+                    : rf_selectedCategoryBgColor,
               ),
               padding: EdgeInsets.all(16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  rf_person.iconImage(iconColor: rf_primaryColor).paddingOnly(top: 4),
+                  rf_person
+                      .iconImage(iconColor: rf_primaryColor)
+                      .paddingOnly(top: 4),
                   16.width,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Edit Profile", style: boldTextStyle(color: rf_primaryColor)),
+                      Text("Edit Profile",
+                          style: boldTextStyle(color: rf_primaryColor)),
                       8.height,
                       Text(
                         "Edit all the basic profile information associated with your profile",
@@ -116,14 +135,16 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
             ),
             SettingItemWidget(
               title: "Dark Mode",
-              leading: Icon(Icons.dark_mode_outlined, size: 18, color: rf_primaryColor),
+              leading: Icon(Icons.dark_mode_outlined,
+                  size: 18, color: rf_primaryColor),
               titleTextStyle: primaryTextStyle(),
               trailing: Switch(
                 value: appStore.isDarkModeOn,
                 activeTrackColor: rf_primaryColor,
                 onChanged: (bool value) {
                   appStore.toggleDarkMode(value: value);
-                  setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+                  setStatusBarColor(rf_primaryColor,
+                      statusBarIconBrightness: Brightness.light);
                   setState(() {});
                 },
               ),
@@ -144,7 +165,9 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                   margin: EdgeInsets.only(right: 24),
                   child: SettingItemWidget(
                     title: data.roomCategoryName.validate(),
-                    leading: data.img.validate().iconImage(iconColor: rf_primaryColor, size: 18),
+                    leading: data.img
+                        .validate()
+                        .iconImage(iconColor: rf_primaryColor, size: 18),
                     titleTextStyle: primaryTextStyle(),
                     onTap: () {
                       if (index == 4) {

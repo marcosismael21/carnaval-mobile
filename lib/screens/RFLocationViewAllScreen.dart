@@ -5,7 +5,7 @@ import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class RFLocationViewAllScreen extends StatelessWidget {
-  final List<RoomFinderModel> locationListData = locationList();
+  final List<RoomFinderModel> locationListData =  List.empty();
   final bool? locationWidth;
 
   RFLocationViewAllScreen({this.locationWidth});

@@ -9,7 +9,7 @@ import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class RFRecentlyViewedScreen extends StatelessWidget {
-  final List<RoomFinderModel> hotelListData = hotelList();
+  final List<RoomFinderModel> hotelListData =  List.empty();
   final bool showHeight = false;
 
   @override

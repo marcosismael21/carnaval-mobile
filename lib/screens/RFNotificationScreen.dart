@@ -6,8 +6,8 @@ import 'package:room_finder_flutter/utils/RFDataGenerator.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
 
 class RFNotificationScreen extends StatelessWidget {
-  final List<RoomFinderModel> notificationData = notificationList();
-  final List<RoomFinderModel> yesterdayNotificationData = yesterdayNotificationList();
+  final List<RoomFinderModel> notificationData =  List.empty();
+  final List<RoomFinderModel> yesterdayNotificationData =  List.empty();
   final bool yesterdayList = true;
 
   @override

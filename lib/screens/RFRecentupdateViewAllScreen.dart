@@ -6,7 +6,7 @@ import 'package:room_finder_flutter/utils/RFWidget.dart';
 import '../components/RFRecentUpdateComponent.dart';
 
 class RFRecentUpdateViewAllScreen extends StatelessWidget {
-  final List<RoomFinderModel> hotelListData = hotelList();
+  final List<RoomFinderModel> hotelListData =  List.empty();
 
   @override
   Widget build(BuildContext context) {

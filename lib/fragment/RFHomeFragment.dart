@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFPropertyListComponent.dart';
-import 'package:room_finder_flutter/components/RFLocationComponent.dart';
-import 'package:room_finder_flutter/components/RFRecentUpdateComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/PropertyModel.dart';
-import 'package:room_finder_flutter/models/RoomFinderModel.dart';
-import 'package:room_finder_flutter/screens/RFLocationViewAllScreen.dart';
-import 'package:room_finder_flutter/screens/RFRecentupdateViewAllScreen.dart';
 import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
 import 'package:room_finder_flutter/screens/RFViewAllPropertiesScreen.dart';
 import 'package:room_finder_flutter/services/property_service.dart';
@@ -23,8 +18,8 @@ class RFHomeFragment extends StatefulWidget {
 }
 
 class _RFHomeFragmentState extends State<RFHomeFragment> {
-  List<RoomFinderModel> categoryData = categoryList();
-  List<RoomFinderModel> locationListData = locationList();
+  List<CategoryModel> categoryData = categoryList();
+  //List<CategoryModel> locationListData = locationList();
 
   // Para los datos de nuestra API
   List<Property> propertyListData = [];
@@ -84,7 +79,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Encuentra una propiedad en cualquier lugar',
+            Text('¡Encuentra tu nuevo lugar favorito de la ciudad!',
                 style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
@@ -126,7 +121,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               wrapAlignment: WrapAlignment.spaceEvenly,
               itemCount: categoryData.length,
               itemBuilder: (BuildContext context, int index) {
-                RoomFinderModel data = categoryData[index];
+                CategoryModel data = categoryData[index];
 
                 return GestureDetector(
                   onTap: () {
@@ -144,13 +139,23 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                               : rf_categoryBgColor,
                     ),
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: Text(
-                      data.roomCategoryName.validate(),
-                      style: boldTextStyle(
-                          color: selectCategoryIndex == index
-                              ? rf_primaryColor
-                              : gray),
-                    ),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(
+                        data.icon,
+                        size: 18,
+                        color: selectCategoryIndex == index
+                            ? rf_primaryColor
+                            : gray,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        data.name.validate(),
+                        style: boldTextStyle(
+                            color: selectCategoryIndex == index
+                                ? rf_primaryColor
+                                : gray),
+                      ),
+                    ]),
                   ),
                 );
               },
@@ -158,8 +163,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Propiedades Recientemente Añadidas',
-                    style: boldTextStyle()),
+                Text('Más lugares por conocer', style: boldTextStyle()),
                 TextButton(
                   onPressed: () {
                     RFViewAllPropertiesScreen(properties: propertyListData)

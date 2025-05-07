@@ -15,8 +15,8 @@ class RFLocationScreen extends StatefulWidget {
 class _RFLocationScreenState extends State<RFLocationScreen> {
   TextEditingController addressController = TextEditingController();
 
-  List<RoomFinderModel> hotelListData = hotelList();
-  List<RoomFinderModel> availableHotelListData = availableHotelList();
+  List<RoomFinderModel> hotelListData =  List.empty();
+  List<RoomFinderModel> availableHotelListData =  List.empty();
 
   int selectedIndex = 0;
 

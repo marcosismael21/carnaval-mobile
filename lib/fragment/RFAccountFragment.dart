@@ -15,9 +15,9 @@ class RFAccountFragment extends StatefulWidget {
 }
 
 class _RFAccountFragmentState extends State<RFAccountFragment> {
-  final List<RoomFinderModel> settingData = settingList();
-  final List<RoomFinderModel> appliedHotelData = appliedHotelList();
-  final List<RoomFinderModel> applyHotelData = applyHotelList();
+  final List<RoomFinderModel> settingData = List.empty();
+  final List<RoomFinderModel> appliedHotelData =  List.empty();
+  final List<RoomFinderModel> applyHotelData =  List.empty();
 
   int selectedIndex = 0;
 
