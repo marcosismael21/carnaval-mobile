@@ -9,7 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../main.dart';
 
-Widget socialLoginButton(BuildContext context, {String? socialImage, String? socialLoginName}) {
+Widget socialLoginButton(BuildContext context,
+    {String? socialImage, String? socialLoginName}) {
   return OutlinedButton(
     onPressed: () {},
     style: OutlinedButton.styleFrom(
@@ -29,7 +30,13 @@ Widget socialLoginButton(BuildContext context, {String? socialImage, String? soc
   ).paddingSymmetric(horizontal: 24);
 }
 
-InputDecoration rfInputDecoration({Widget? suffixIcon, String? hintText, Widget? prefixIcon, bool? showPreFixIcon, String? lableText, bool showLableText = false}) {
+InputDecoration rfInputDecoration(
+    {Widget? suffixIcon,
+    String? hintText,
+    Widget? prefixIcon,
+    bool? showPreFixIcon,
+    String? lableText,
+    bool showLableText = false}) {
   return InputDecoration(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
@@ -58,16 +65,32 @@ InputDecoration rfInputDecoration({Widget? suffixIcon, String? hintText, Widget?
       prefixIcon: showPreFixIcon.validate() ? prefixIcon.validate() : null);
 }
 
-Widget rfCommonRichText({String? title, String? subTitle, int? textSize, double? textHeight, Color? titleTextColor, Color? subTitleTextColor, TextStyle? titleTextStyle, TextStyle? subTitleTextStyle}) {
+Widget rfCommonRichText(
+    {String? title,
+    String? subTitle,
+    int? textSize,
+    double? textHeight,
+    Color? titleTextColor,
+    Color? subTitleTextColor,
+    TextStyle? titleTextStyle,
+    TextStyle? subTitleTextStyle}) {
   return RichText(
     //textAlign: TextAlign.center,
     text: TextSpan(
       text: title.validate(),
-      style: titleTextStyle ?? primaryTextStyle(size: textSize ?? 14, height: textHeight ?? 0, letterSpacing: 1.5),
+      style: titleTextStyle ??
+          primaryTextStyle(
+              size: textSize ?? 14,
+              height: textHeight ?? 0,
+              letterSpacing: 1.5),
       children: [
         TextSpan(
           text: subTitle.validate(),
-          style: subTitleTextStyle ?? primaryTextStyle(color: subTitleTextColor ?? rf_primaryColor, size: textSize ?? 14, letterSpacing: 1.5),
+          style: subTitleTextStyle ??
+              primaryTextStyle(
+                  color: subTitleTextColor ?? rf_primaryColor,
+                  size: textSize ?? 14,
+                  letterSpacing: 1.5),
         ),
       ],
     ),
@@ -101,7 +124,8 @@ Widget text(
       color: textColor ?? appStore.textSecondaryColor,
       height: 1.5,
       letterSpacing: latterSpacing,
-      decoration: lineThrough ? TextDecoration.lineThrough : TextDecoration.none,
+      decoration:
+          lineThrough ? TextDecoration.lineThrough : TextDecoration.none,
     ),
   );
 }
@@ -116,7 +140,9 @@ class CustomTheme extends StatelessWidget {
     return Theme(
       data: appStore.isDarkModeOn
           ? ThemeData.dark().copyWith(
-              colorScheme: ColorScheme.fromSwatch().copyWith(secondary: appColorPrimary).copyWith(surface: context.scaffoldBackgroundColor),
+              colorScheme: ColorScheme.fromSwatch()
+                  .copyWith(secondary: appColorPrimary)
+                  .copyWith(surface: context.scaffoldBackgroundColor),
             )
           : ThemeData.light(),
       child: child!,
@@ -124,23 +150,15 @@ class CustomTheme extends StatelessWidget {
   }
 }
 
-Widget socialLoginWidget(BuildContext context, {Function? callBack, String? title1, String? title2}) {
+Widget socialLoginWidget(BuildContext context,
+    {Function? callBack, String? title1, String? title2}) {
   return Column(
     children: [
       Column(
         children: [
-          28.height,
-          Text('Or Sign Up with', style: primaryTextStyle()),
-          16.height,
-          socialLoginButton(context, socialImage: rf_facebook_logo, socialLoginName: "Continue With Facebook").onTap(() {
-            //
-          }),
-          16.height,
-          socialLoginButton(context, socialImage: rf_google_logo, socialLoginName: "Continue With Google").onTap(() {
-            //
-          }),
-          24.height,
-          rfCommonRichText(title: title1, subTitle: title2).paddingAll(8).onTap(() {
+          rfCommonRichText(title: title1, subTitle: title2)
+              .paddingAll(8)
+              .onTap(() {
             callBack!.call();
           })
         ],
@@ -149,10 +167,16 @@ Widget socialLoginWidget(BuildContext context, {Function? callBack, String? titl
   );
 }
 
-BoxDecoration boxDecoration({double radius = 2, Color color = Colors.transparent, Color? bgColor, var showShadow = false}) {
+BoxDecoration boxDecoration(
+    {double radius = 2,
+    Color color = Colors.transparent,
+    Color? bgColor,
+    var showShadow = false}) {
   return BoxDecoration(
     color: bgColor ?? appStore.scaffoldBackground,
-    boxShadow: showShadow ? defaultBoxShadow(shadowColor: shadowColorGlobal) : [BoxShadow(color: Colors.transparent)],
+    boxShadow: showShadow
+        ? defaultBoxShadow(shadowColor: shadowColorGlobal)
+        : [BoxShadow(color: Colors.transparent)],
     border: Border.all(color: color),
     borderRadius: BorderRadius.all(Radius.circular(radius)),
   );
@@ -162,7 +186,11 @@ Decoration shadowWidget(BuildContext context) {
   return boxDecorationWithRoundedCorners(
     backgroundColor: context.cardColor,
     boxShadow: [
-      BoxShadow(spreadRadius: 0.4, blurRadius: 3, color: gray.withOpacity(0.1), offset: Offset(1, 6)),
+      BoxShadow(
+          spreadRadius: 0.4,
+          blurRadius: 3,
+          color: gray.withOpacity(0.1),
+          offset: Offset(1, 6)),
     ],
   );
 }
@@ -178,7 +206,12 @@ Widget rfCommonCachedNetworkImage(
   Color? color,
 }) {
   if (url!.validate().isEmpty) {
-    return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+    return placeHolderWidget(
+        height: height,
+        width: width,
+        fit: fit,
+        alignment: alignment,
+        radius: radius);
   } else if (url.validate().startsWith('http')) {
     return CachedNetworkImage(
       imageUrl: url,
@@ -188,20 +221,46 @@ Widget rfCommonCachedNetworkImage(
       color: color,
       alignment: alignment as Alignment? ?? Alignment.center,
       errorWidget: (_, s, d) {
-        return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+        return placeHolderWidget(
+            height: height,
+            width: width,
+            fit: fit,
+            alignment: alignment,
+            radius: radius);
       },
       placeholder: (_, s) {
         if (!usePlaceholderIfUrlEmpty) return SizedBox();
-        return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+        return placeHolderWidget(
+            height: height,
+            width: width,
+            fit: fit,
+            alignment: alignment,
+            radius: radius);
       },
     );
   } else {
-    return Image.asset(url, height: height, width: width, fit: fit, color: color, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
+    return Image.asset(url,
+            height: height,
+            width: width,
+            fit: fit,
+            color: color,
+            alignment: alignment ?? Alignment.center)
+        .cornerRadiusWithClipRRect(radius ?? defaultRadius);
   }
 }
 
-Widget placeHolderWidget({double? height, double? width, BoxFit? fit, AlignmentGeometry? alignment, double? radius}) {
-  return Image.asset('images/roomFinding/rf_call.png', height: height, width: width, fit: fit ?? BoxFit.cover, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
+Widget placeHolderWidget(
+    {double? height,
+    double? width,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    double? radius}) {
+  return Image.asset('images/roomFinding/rf_call.png',
+          height: height,
+          width: width,
+          fit: fit ?? BoxFit.cover,
+          alignment: alignment ?? Alignment.center)
+      .cornerRadiusWithClipRRect(radius ?? defaultRadius);
 }
 
 Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
@@ -211,18 +270,25 @@ Widget viewAllWidget({String? title, String? subTitle, Function? onTap}) {
       Text(title!, style: boldTextStyle()),
       TextButton(
         onPressed: onTap!(),
-        child: Text(subTitle!, style: secondaryTextStyle(decoration: TextDecoration.underline)),
+        child: Text(subTitle!,
+            style: secondaryTextStyle(decoration: TextDecoration.underline)),
       )
     ],
   );
 }
 
-PreferredSizeWidget commonAppBarWidget(BuildContext context, {String? title, double? appBarHeight, bool? showLeadingIcon, bool? bottomSheet, bool? roundCornerShape}) {
+PreferredSizeWidget commonAppBarWidget(BuildContext context,
+    {String? title,
+    double? appBarHeight,
+    bool? showLeadingIcon,
+    bool? bottomSheet,
+    bool? roundCornerShape}) {
   return PreferredSize(
     preferredSize: Size.fromHeight(appBarHeight ?? 100.0),
     child: AppBar(
       title: Text(title!, style: boldTextStyle(color: whiteColor, size: 20)),
-      systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
+      systemOverlayStyle:
+          SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light),
       backgroundColor: rf_primaryColor,
       centerTitle: true,
       leading: showLeadingIcon.validate()
@@ -236,7 +302,8 @@ PreferredSizeWidget commonAppBarWidget(BuildContext context, {String? title, dou
             ),
       elevation: 0,
       shape: roundCornerShape.validate()
-          ? RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)))
+          ? RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)))
           : RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.zero),
             ),
@@ -251,16 +318,19 @@ extension strExt on String {
       width: size,
       height: size,
       color: iconColor ?? gray,
-      errorBuilder: (_, __, ___) => placeHolderWidget(width: size, height: size),
+      errorBuilder: (_, __, ___) =>
+          placeHolderWidget(width: size, height: size),
     );
   }
 }
 
-Widget commonCacheImageWidget(String? url, double height, {double? width, BoxFit? fit}) {
+Widget commonCacheImageWidget(String? url, double height,
+    {double? width, BoxFit? fit}) {
   if (url.validate().startsWith('http')) {
     if (isMobile) {
       return CachedNetworkImage(
-        placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
+        placeholder:
+            placeholderWidgetFn() as Widget Function(BuildContext, String)?,
         imageUrl: '$url',
         height: height,
         width: width,
@@ -270,18 +340,23 @@ Widget commonCacheImageWidget(String? url, double height, {double? width, BoxFit
         },
       );
     } else {
-      return Image.network(url!, height: height, width: width, fit: fit ?? BoxFit.cover);
+      return Image.network(url!,
+          height: height, width: width, fit: fit ?? BoxFit.cover);
     }
   } else {
-    return Image.asset(url!, height: height, width: width, fit: fit ?? BoxFit.cover);
+    return Image.asset(url!,
+        height: height, width: width, fit: fit ?? BoxFit.cover);
   }
 }
 
-Widget? Function(BuildContext, String) placeholderWidgetFn() => (_, s) => placeholderWidget();
+Widget? Function(BuildContext, String) placeholderWidgetFn() =>
+    (_, s) => placeholderWidget();
 
-Widget placeholderWidget() => Image.asset('images/roomFinding/rf_call.png', fit: BoxFit.cover);
+Widget placeholderWidget() =>
+    Image.asset('images/roomFinding/rf_call.png', fit: BoxFit.cover);
 
-Future<void> commonLaunchUrl(String address, {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
+Future<void> commonLaunchUrl(String address,
+    {LaunchMode launchMode = LaunchMode.inAppWebView}) async {
   await launchUrl(Uri.parse(address), mode: launchMode).catchError((e) {
     toast('Invalid URL: $address');
   });
@@ -290,14 +365,17 @@ Future<void> commonLaunchUrl(String address, {LaunchMode launchMode = LaunchMode
 void launchCall(String? url) {
   if (url.validate().isNotEmpty) {
     if (isIOS)
-      commonLaunchUrl('tel://' + url!, launchMode: LaunchMode.externalApplication);
+      commonLaunchUrl('tel://' + url!,
+          launchMode: LaunchMode.externalApplication);
     else
-      commonLaunchUrl('tel:' + url!, launchMode: LaunchMode.externalApplication);
+      commonLaunchUrl('tel:' + url!,
+          launchMode: LaunchMode.externalApplication);
   }
 }
 
 void launchMail(String? url) {
   if (url.validate().isNotEmpty) {
-    commonLaunchUrl('mailto:' + url!, launchMode: LaunchMode.externalApplication);
+    commonLaunchUrl('mailto:' + url!,
+        launchMode: LaunchMode.externalApplication);
   }
 }

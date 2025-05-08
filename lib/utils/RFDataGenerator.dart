@@ -39,24 +39,16 @@ List<CategoryModel> categoryList() {
 List<RoomFinderModel> settingList() {
   List<RoomFinderModel> settingListData = [];
   settingListData.add(RoomFinderModel(
-      img: rf_notification,
-      roomCategoryName: "Notifications",
-      newScreenWidget: RFNotificationScreen()));
-  settingListData.add(RoomFinderModel(
       img: rf_recent_view,
-      roomCategoryName: "Recent Viewed",
+      roomCategoryName: "Vistos recientemente",
       newScreenWidget: RFRecentlyViewedScreen()));
   settingListData.add(RoomFinderModel(
-      img: rf_faq,
-      roomCategoryName: "Get Help",
-      newScreenWidget: RFHelpScreen()));
-  settingListData.add(RoomFinderModel(
       img: rf_about_us,
-      roomCategoryName: "About us",
+      roomCategoryName: "Sobre nosotros",
       newScreenWidget: RFAboutUsScreen()));
   settingListData.add(RoomFinderModel(
       img: rf_sign_out,
-      roomCategoryName: "Sign Out",
+      roomCategoryName: "Cerrar sesión",
       newScreenWidget: SizedBox()));
 
   return settingListData;

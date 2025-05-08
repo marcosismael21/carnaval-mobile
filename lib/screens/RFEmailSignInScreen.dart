@@ -71,7 +71,7 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
         cardWidget: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Sign In to Continue', style: boldTextStyle(size: 18)),
+            Text('Iniciar sesión para continuar', style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
               controller: emailController,
@@ -79,7 +79,7 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
               nextFocus: passWordFocusNode,
               textFieldType: TextFieldType.EMAIL,
               decoration: rfInputDecoration(
-                lableText: "Email Address",
+                lableText: "Correo electrónico",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -94,14 +94,14 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
               focus: passWordFocusNode,
               textFieldType: TextFieldType.PASSWORD,
               decoration: rfInputDecoration(
-                lableText: 'Password',
+                lableText: 'Contraseña',
                 showLableText: true,
               ),
             ),
             32.height,
             AppButton(
               color: rf_primaryColor,
-              child: Text('Log In', style: boldTextStyle(color: white)),
+              child: Text('Iniciar Sesión', style: boldTextStyle(color: white)),
               width: context.width(),
               elevation: 0,
               onTap: () {
@@ -111,14 +111,14 @@ class _RFEmailSignInScreenState extends State<RFEmailSignInScreen> {
             Align(
               alignment: Alignment.topRight,
               child: TextButton(
-                  child: Text("Reset Password?", style: primaryTextStyle()),
+                  child: Text("Reestablecer Contraseña?", style: primaryTextStyle()),
                   onPressed: () {
                     RFResetPasswordScreen().launch(context);
                   }),
             ),
           ],
         ),
-        subWidget: socialLoginWidget(context, title1: "New Member? ", title2: "Sign up Here", callBack: () {
+        subWidget: socialLoginWidget(context, title1: "Nuevo miembro? ", title2: "Registrate aquí!", callBack: () {
           RFSignUpScreen().launch(context);
         }),
       ),

@@ -37,7 +37,7 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RFCommonAppComponent(
-        title: "Account",
+        title: "Configuración",
         mainWidgetHeight: 200,
         subWidgetHeight: 100,
         accountCircleWidget: Align(
@@ -88,17 +88,6 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
             8.height,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('10 Applied', style: secondaryTextStyle()),
-                8.width,
-                Container(
-                    height: 10,
-                    width: 1,
-                    color:
-                        appStore.isDarkModeOn ? white : gray.withOpacity(0.4)),
-                8.width,
-                Text('Kathmandu', style: secondaryTextStyle()),
-              ],
             ),
             16.height,
             Container(
@@ -108,33 +97,9 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                     ? scaffoldDarkColor
                     : rf_selectedCategoryBgColor,
               ),
-              padding: EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  rf_person
-                      .iconImage(iconColor: rf_primaryColor)
-                      .paddingOnly(top: 4),
-                  16.width,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Edit Profile",
-                          style: boldTextStyle(color: rf_primaryColor)),
-                      8.height,
-                      Text(
-                        "Edit all the basic profile information associated with your profile",
-                        style: secondaryTextStyle(color: gray),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ).expand(),
-                ],
-              ),
             ),
             SettingItemWidget(
-              title: "Dark Mode",
+              title: "Modo oscuro",
               leading: Icon(Icons.dark_mode_outlined,
                   size: 18, color: rf_primaryColor),
               titleTextStyle: primaryTextStyle(),
@@ -170,11 +135,11 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                         .iconImage(iconColor: rf_primaryColor, size: 18),
                     titleTextStyle: primaryTextStyle(),
                     onTap: () {
-                      if (index == 4) {
+                      if (index == 2) {
                         showConfirmDialogCustom(
                           context,
                           cancelable: false,
-                          title: "Are you sure you want to logout?",
+                          title: "¿Estás seguro que deseas cerrar sesión?",
                           dialogType: DialogType.CONFIRMATION,
                           onCancel: (v) {
                             finish(context);

@@ -33,17 +33,17 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined, size: 22),
-          label: 'Home',
+          label: 'Inicio',
           activeIcon: Icon(Icons.home_outlined, color: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
           icon: rf_search.iconImage(),
-          label: 'Search',
+          label: 'Buscar',
           activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
           icon: rf_setting.iconImage(size: 22),
-          label: 'Settings',
+          label: 'Configuración',
           activeIcon: rf_setting.iconImage(iconColor: rf_primaryColor, size: 22),
         ),
         /*BottomNavigationBarItem(

@@ -49,7 +49,7 @@ class _RFSignUpScreenState extends State<RFSignUpScreen> {
         cardWidget: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Create an Account', style: boldTextStyle(size: 18)),
+            Text('Crear una cuenta', style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
               controller: fullNameController,
@@ -57,7 +57,7 @@ class _RFSignUpScreenState extends State<RFSignUpScreen> {
               nextFocus: emailFocusNode,
               textFieldType: TextFieldType.NAME,
               decoration: rfInputDecoration(
-                lableText: "Full Name",
+                lableText: "Nombre completo",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -73,7 +73,7 @@ class _RFSignUpScreenState extends State<RFSignUpScreen> {
               nextFocus: passWordFocusNode,
               textFieldType: TextFieldType.EMAIL,
               decoration: rfInputDecoration(
-                lableText: "Email Address",
+                lableText: "Correo electrónico",
                 showLableText: true,
                 suffixIcon: Container(
                   padding: EdgeInsets.all(2),
@@ -89,7 +89,7 @@ class _RFSignUpScreenState extends State<RFSignUpScreen> {
               nextFocus: confirmPasswordFocusNode,
               textFieldType: TextFieldType.PASSWORD,
               decoration: rfInputDecoration(
-                lableText: 'Password',
+                lableText: 'Contraseña',
                 showLableText: true,
               ),
             ),
@@ -99,14 +99,14 @@ class _RFSignUpScreenState extends State<RFSignUpScreen> {
               focus: confirmPasswordFocusNode,
               textFieldType: TextFieldType.PASSWORD,
               decoration: rfInputDecoration(
-                lableText: 'Confirm Password',
+                lableText: 'Confirmar contraseña',
                 showLableText: true,
               ),
             ),
             32.height,
             AppButton(
               color: rf_primaryColor,
-              child: Text('Create Account', style: boldTextStyle(color: white)),
+              child: Text('Crear cuenta', style: boldTextStyle(color: white)),
               width: context.width(),
               height: 45,
               elevation: 0,
@@ -116,7 +116,7 @@ class _RFSignUpScreenState extends State<RFSignUpScreen> {
             ),
           ],
         ),
-        subWidget: rfCommonRichText(title: "Have an account? ", subTitle: "Sign In Here").paddingAll(8).onTap(
+        subWidget: rfCommonRichText(title: "Ya tienes una cuenta? ", subTitle: "Inicia sesión aquí").paddingAll(8).onTap(
           () {
             finish(context);
           },
