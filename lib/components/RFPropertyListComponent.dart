@@ -76,7 +76,7 @@ class RFPropertyListComponent extends StatelessWidget {
                   6.width,
                   Expanded(
                     child: Text(
-                      '${propertyData.city}, ${propertyData.state}',
+                      '${propertyData.address}',
                       style: secondaryTextStyle(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

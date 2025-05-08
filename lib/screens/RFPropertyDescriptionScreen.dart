@@ -195,12 +195,6 @@ class _RFPropertyDescriptionScreenState
                                               CrossAxisAlignment.end,
                                           children: [
                                             Text(
-                                              'L. ${propertyData!.price}',
-                                              style: boldTextStyle(
-                                                  size: 18,
-                                                  color: rf_primaryColor),
-                                            ),
-                                            Text(
                                               propertyData!.status == 'for-rent'
                                                   ? 'Por mes'
                                                   : 'En venta',
@@ -253,18 +247,6 @@ class _RFPropertyDescriptionScreenState
                                               4.height,
                                               Text(
                                                   '${propertyData!.bathrooms} Baño',
-                                                  style:
-                                                      boldTextStyle(size: 14)),
-                                            ],
-                                          ),
-                                        if (propertyData!.squareFeet != "0.00")
-                                          Column(
-                                            children: [
-                                              Icon(Icons.square_foot,
-                                                  color: rf_primaryColor),
-                                              4.height,
-                                              Text(
-                                                  '${propertyData!.squareFeet}m²',
                                                   style:
                                                       boldTextStyle(size: 14)),
                                             ],

@@ -14,8 +14,8 @@ class RFPropertyListComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Formatear precio para mostrar
-    String formattedPrice = 'L. ${propertyData.price}';
-    
+    String formattedPrice = 'L. 0';
+
     // Determinar texto de duración basado en tipo de propiedad
     String rentDuration = '';
     switch (propertyData.propertyType) {
@@ -30,7 +30,7 @@ class RFPropertyListComponent extends StatelessWidget {
       default:
         rentDuration = '';
     }
-    
+
     // Color de indicador basado en status
     Color statusColor = rf_primaryColor;
     if (propertyData.isNew == 1) {
@@ -41,18 +41,16 @@ class RFPropertyListComponent extends StatelessWidget {
 
     return Container(
       width: context.width(),
-      decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
+      decoration:
+          boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
       padding: EdgeInsets.all(8),
       margin: EdgeInsets.only(bottom: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          rfCommonCachedNetworkImage(
-            propertyData.image,
-            height: 100, 
-            width: 100, 
-            fit: BoxFit.cover
-          ).cornerRadiusWithClipRRect(8),
+          rfCommonCachedNetworkImage(propertyData.image,
+                  height: 100, width: 100, fit: BoxFit.cover)
+              .cornerRadiusWithClipRRect(8),
           16.width,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +63,7 @@ class RFPropertyListComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        propertyData.title, 
+                        propertyData.title,
                         style: boldTextStyle(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -73,14 +71,9 @@ class RFPropertyListComponent extends StatelessWidget {
                       8.height,
                       Row(
                         children: [
-                          Text(
-                            formattedPrice, 
-                            style: boldTextStyle(color: rf_primaryColor)
-                          ),
-                          Text(
-                            rentDuration, 
-                            style: secondaryTextStyle()
-                          ),
+                          Text(formattedPrice,
+                              style: boldTextStyle(color: rf_primaryColor)),
+                          Text(rentDuration, style: secondaryTextStyle()),
                         ],
                       ).fit(),
                     ],
@@ -89,16 +82,13 @@ class RFPropertyListComponent extends StatelessWidget {
                     children: [
                       Container(
                         decoration: boxDecorationWithRoundedCorners(
-                          boxShape: BoxShape.circle, 
-                          backgroundColor: statusColor
-                        ),
+                            boxShape: BoxShape.circle,
+                            backgroundColor: statusColor),
                         padding: EdgeInsets.all(4),
                       ),
                       6.width,
-                      Text(
-                        propertyData.propertyType.capitalize(),
-                        style: secondaryTextStyle()
-                      ),
+                      Text(propertyData.propertyType.capitalize(),
+                          style: secondaryTextStyle()),
                     ],
                   ),
                 ],
@@ -126,19 +116,16 @@ class RFPropertyListComponent extends StatelessWidget {
                   if (propertyData.bedrooms > 0) ...[
                     Icon(Icons.bed, color: Colors.grey, size: 14),
                     4.width,
-                    Text('${propertyData.bedrooms}', style: secondaryTextStyle(size: 12)),
+                    Text('${propertyData.bedrooms}',
+                        style: secondaryTextStyle(size: 12)),
                     12.width,
                   ],
                   if (propertyData.bathrooms != "0.0") ...[
                     Icon(Icons.bathtub_outlined, color: Colors.grey, size: 14),
                     4.width,
-                    Text('${propertyData.bathrooms}', style: secondaryTextStyle(size: 12)),
+                    Text('${propertyData.bathrooms}',
+                        style: secondaryTextStyle(size: 12)),
                     12.width,
-                  ],
-                  if (propertyData.squareFeet != "0.00") ...[
-                    Icon(Icons.square_foot, color: Colors.grey, size: 14),
-                    4.width,
-                    Text('${propertyData.squareFeet}m²', style: secondaryTextStyle(size: 12)),
                   ],
                 ],
               ),
@@ -148,7 +135,10 @@ class RFPropertyListComponent extends StatelessWidget {
       ),
     ).onTap(() {
       RFPropertyDescriptionScreen(propertyId: propertyData.id).launch(context);
-    }, splashColor: Colors.transparent, hoverColor: Colors.transparent, highlightColor: Colors.transparent);
+    },
+        splashColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        highlightColor: Colors.transparent);
   }
 }
 

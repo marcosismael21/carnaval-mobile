@@ -6,10 +6,8 @@ class Property {
   final String city;
   final String state;
   final String zipCode;
-  final String price;
   final int bedrooms;
   final String bathrooms;
-  final String squareFeet;
   final String propertyType;
   final String status;
   final String image;
@@ -43,10 +41,8 @@ class Property {
     required this.city,
     required this.state,
     required this.zipCode,
-    required this.price,
     required this.bedrooms,
     required this.bathrooms,
-    required this.squareFeet,
     required this.propertyType,
     required this.status,
     required this.image,
@@ -75,42 +71,44 @@ class Property {
 
   factory Property.fromJson(Map<String, dynamic> json) => Property(
         id: json["id"],
-        title: json["title"],
-        description: json["description"],
-        address: json["address"],
-        city: json["city"],
-        state: json["state"],
-        zipCode: json["zip_code"],
-        price: json["price"],
-        bedrooms: json["bedrooms"],
-        bathrooms: json["bathrooms"],
-        squareFeet: json["square_feet"],
-        propertyType: json["property_type"],
-        status: json["status"],
-        image: json["image"],
-        isNew: json["isNew"],
-        isFeatured: json["isFeatured"],
-        isVerified: json["isVerified"],
-        parkingSpaces: json["parkingSpaces"],
-        hostId: json["host_id"],
-        averageRating: json["average_rating"],
-        views: json["views"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        lat: json["lat"],
-        lng: json["lng"],
-        amenities: List<String>.from(json["amenities"].map((x) => x)),
-        petsAllowed: List<String>.from(json["pets_allowed"].map((x) => x)),
-        hostFirstName: json["host_first_name"],
-        hostLastName: json["host_last_name"],
-        hostProfileImage: json["host_profile_image"],
-        hostBio: json["host_bio"],
-        hostName: json["host_name"],
+        title: json["title"] ?? "",
+        description: json["description"] ?? "",
+        address: json["address"] ?? "",
+        city: json["city"] ?? "",
+        state: json["state"] ?? "",
+        zipCode: json["zip_code"] ?? "",
+        bedrooms: json["bedrooms"] ?? 0,
+        bathrooms: json["bathrooms"] ?? "",
+        propertyType: json["property_type"] ?? "",
+        status: json["status"] ?? "",
+        image: json["image"] ?? "",
+        isNew: json["isNew"] ?? 0,
+        isFeatured: json["isFeatured"] ?? 0,
+        isVerified: json["isVerified"] ?? 0,
+        parkingSpaces: json["parkingSpaces"] ?? 0,
+        hostId: json["host_id"] ?? 0,
+        averageRating: json["average_rating"] ?? "",
+        views: json["views"] ?? 0,
+        createdAt: json["created_at"] ?? "",
+        updatedAt: json["updated_at"] ?? "",
+        lat: json["lat"] ?? "",
+        lng: json["lng"] ?? "",
+        amenities: json["amenities"] != null
+            ? List<String>.from(json["amenities"].map((x) => x))
+            : [],
+        petsAllowed: json["pets_allowed"] != null
+            ? List<String>.from(json["pets_allowed"].map((x) => x))
+            : [],
+        hostFirstName: json["host_first_name"] ?? "",
+        hostLastName: json["host_last_name"] ?? "",
+        hostProfileImage: json["host_profile_image"] ?? "",
+        hostBio: json["host_bio"] ?? "",
+        hostName: json["host_name"] ?? "",
         additionalImages: json["additional_images"] != null
             ? List<String>.from(json["additional_images"].map((x) => x))
-            : null,
-        hostAverageRating: json["host_average_rating"],
-        hostReviewCount: json["host_review_count"],
+            : [],
+        hostAverageRating: json["host_average_rating"] ?? 0,
+        hostReviewCount: json["host_review_count"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -121,10 +119,8 @@ class Property {
         "city": city,
         "state": state,
         "zip_code": zipCode,
-        "price": price,
         "bedrooms": bedrooms,
         "bathrooms": bathrooms,
-        "square_feet": squareFeet,
         "property_type": propertyType,
         "status": status,
         "image": image,
