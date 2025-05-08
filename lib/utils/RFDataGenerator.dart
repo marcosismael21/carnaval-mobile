@@ -10,10 +10,10 @@ import 'package:room_finder_flutter/utils/RFImages.dart';
 class CategoryModel {
   final String name;
   final IconData icon;
-  final String propertyType;
+  final String category;
 
   CategoryModel(
-      {required this.name, required this.icon, required this.propertyType});
+      {required this.name, required this.icon, required this.category});
 }
 
 List<CategoryModel> categoryList() {
@@ -21,22 +21,17 @@ List<CategoryModel> categoryList() {
     CategoryModel(
       name: "Alojamientos",
       icon: Icons.hotel,
-      propertyType: "alojamiento",
+      category: "Alojamiento",
     ),
     CategoryModel(
-      name: "Arrendadora de vehículos",
-      icon: Icons.directions_car,
-      propertyType: "arrendadora",
-    ),
-    CategoryModel(
-      name: "Centros de recreación",
+      name: "Entretenimiento",
       icon: Icons.sports_soccer,
-      propertyType: "recreacion",
+      category: "Entretenimiento",
     ),
     CategoryModel(
       name: "Restaurantes y Bares",
       icon: Icons.restaurant_menu,
-      propertyType: "restaurante",
+      category: "Restaurante y bar",
     ),
   ];
 }

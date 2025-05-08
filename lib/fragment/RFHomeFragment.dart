@@ -23,6 +23,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
 
   // Para los datos de nuestra API
   List<Property> propertyListData = [];
+  List<Property> filteredProperties = [];
   bool isLoading = true;
   String error = '';
 
@@ -52,6 +53,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
       final properties = await _propertyService.getAllProperties();
       setState(() {
         propertyListData = properties;
+        filteredProperties = properties;
         isLoading = false;
       });
     } catch (e) {
@@ -60,6 +62,20 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
         isLoading = false;
       });
       print(error);
+    }
+  }
+
+  void filterPropertiesByCategory(String category) {
+    if (category.isEmpty) {
+      setState(() {
+        filteredProperties = propertyListData; // Mostrar todas si no hay filtro
+      });
+    } else {
+      setState(() {
+        filteredProperties = propertyListData
+            .where((property) => property.category == category)
+            .toList();
+      });
     }
   }
 
@@ -127,6 +143,7 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                   onTap: () {
                     setState(() {
                       selectCategoryIndex = index;
+                      filterPropertiesByCategory(data.category);
                     });
                   },
                   child: Container(
@@ -188,9 +205,9 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
-                itemCount: propertyListData.take(3).length,
+                itemCount: filteredProperties.take(3).length,
                 itemBuilder: (BuildContext context, int index) {
-                  Property data = propertyListData[index];
+                  Property data = filteredProperties[index];
                   return RFPropertyListComponent(propertyData: data);
                 },
               ),

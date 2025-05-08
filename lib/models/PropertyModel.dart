@@ -11,6 +11,7 @@ class Property {
   final String propertyType;
   final String status;
   final String image;
+  final String category;
   final int isNew;
   final int isFeatured;
   final int isVerified;
@@ -46,6 +47,7 @@ class Property {
     required this.propertyType,
     required this.status,
     required this.image,
+    required this.category,
     required this.isNew,
     required this.isFeatured,
     required this.isVerified,
@@ -73,6 +75,7 @@ class Property {
         id: json["id"],
         title: json["title"] ?? "",
         description: json["description"] ?? "",
+        category: json["category"] ?? "",
         address: json["address"] ?? "",
         city: json["city"] ?? "",
         state: json["state"] ?? "",
@@ -116,6 +119,7 @@ class Property {
         "title": title,
         "description": description,
         "address": address,
+        "category": category,
         "city": city,
         "state": state,
         "zip_code": zipCode,
