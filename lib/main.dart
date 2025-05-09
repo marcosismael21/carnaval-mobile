@@ -5,6 +5,7 @@ import 'package:room_finder_flutter/store/AppStore.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
 import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
+import './services/auth_service.dart';
 
 AppStore appStore = AppStore();
 
@@ -14,7 +15,7 @@ void main() async {
   await initialize();
 
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
-
+  AuthService authService = AuthService();
   runApp(const MyApp());
 }
 
