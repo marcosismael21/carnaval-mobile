@@ -307,8 +307,7 @@ class _RFPropertyDescriptionScreenState
                                       ),
                                     ],
 
-                                    // Información del anfitrión
-                                    16.height,
+                                      16.height,
                                     if (propertyData!.hostName != null) ...[
                                       Text('Anfitrión', style: boldTextStyle()),
                                       8.height,
@@ -365,7 +364,97 @@ class _RFPropertyDescriptionScreenState
                                       ),
                                     ],
 
-                                    // Mapa de ubicación
+                                    // Galería de fotos
+                                    16.height,
+                                    if (propertyData!.additionalImages != null && 
+                                        propertyData!.additionalImages!.isNotEmpty) ...[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Fotos', style: boldTextStyle()),
+                                          if (propertyData!.additionalImages!.length > 4)
+                                            TextButton(
+                                              onPressed: () {
+                                                // Implementar visualización de todas las fotos
+                                                toast('Ver todas las fotos');
+                                              },
+                                              child: Text('Ver todas', 
+                                                style: secondaryTextStyle(color: rf_primaryColor),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                      8.height,
+                                      Container(
+                                        height: 120,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: propertyData!.additionalImages!.length > 4 
+                                              ? 4 
+                                              : propertyData!.additionalImages!.length,
+                                          itemBuilder: (context, index) {
+                                            if (index == 3 && propertyData!.additionalImages!.length > 4) {
+                                              // Para la cuarta imagen, si hay más de 4
+                                              return Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 160,
+                                                    margin: EdgeInsets.only(right: 8),
+                                                    decoration: boxDecorationWithRoundedCorners(
+                                                      borderRadius: radius(8),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      child: rfCommonCachedNetworkImage(
+                                                        propertyData!.additionalImages![index],
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned.fill(
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: black.withOpacity(0.5),
+                                                        borderRadius: BorderRadius.circular(8),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          '+${propertyData!.additionalImages!.length - 3}',
+                                                          style: boldTextStyle(color: white, size: 20),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ).onTap(() {
+                                                    toast('Ver todas las fotos');
+                                                  }),
+                                                ],
+                                              );
+                                            } else {
+                                              // Para las primeras 3 imágenes o si hay menos de 4
+                                              return Container(
+                                                width: 160,
+                                                margin: EdgeInsets.only(right: 8),
+                                                decoration: boxDecorationWithRoundedCorners(
+                                                  borderRadius: radius(8),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(8),
+                                                  child: rfCommonCachedNetworkImage(
+                                                    propertyData!.additionalImages![index],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ).onTap(() {
+                                                // Acción al hacer tap en una imagen
+                                                toast('Ver imagen ${index + 1}');
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+
+                                    // Mapa de ubicació
                                     16.height,
                                     Text('Ubicación', style: boldTextStyle()),
                                     8.height,
