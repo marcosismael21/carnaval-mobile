@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFCommonAppComponent.dart';
 import 'package:room_finder_flutter/components/RFPropertyListComponent.dart';
+import 'package:room_finder_flutter/components/RFPropertyGridComponent.dart';
 import 'package:room_finder_flutter/main.dart';
 import 'package:room_finder_flutter/models/PropertyModel.dart';
 import 'package:room_finder_flutter/screens/RFSearchDetailScreen.dart';
@@ -19,7 +20,6 @@ class RFHomeFragment extends StatefulWidget {
 
 class _RFHomeFragmentState extends State<RFHomeFragment> {
   List<CategoryModel> categoryData = categoryList();
-  //List<CategoryModel> locationListData = locationList();
 
   // Para los datos de nuestra API
   List<Property> propertyListData = [];
@@ -30,12 +30,20 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
   PropertyService _propertyService = PropertyService();
   int selectCategoryIndex = 0;
   bool locationWidth = true;
+  bool isListView = true;
 
   @override
   void initState() {
     super.initState();
     init();
     fetchProperties();
+
+    for (int i = 0; i < categoryData.length; i++) {
+      if (categoryData[i].category == "Alojamiento") {
+        selectCategoryIndex = i;
+        break;
+      }
+    }
   }
 
   void init() async {
@@ -53,7 +61,18 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
       final properties = await _propertyService.getAllProperties();
       setState(() {
         propertyListData = properties;
-        filteredProperties = properties;
+        String defaultCategory = "";
+        if (selectCategoryIndex < categoryData.length) {
+          defaultCategory = categoryData[selectCategoryIndex].category;
+        }
+
+        if (defaultCategory.isNotEmpty) {
+          filteredProperties = properties
+              .where((property) => property.category == defaultCategory)
+              .toList();
+        } else {
+          filteredProperties = properties;
+        }
         isLoading = false;
       });
     } catch (e) {
@@ -77,6 +96,12 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             .toList();
       });
     }
+  }
+
+  void toggleViewMode() {
+    setState(() {
+      isListView = !isListView;
+    });
   }
 
   @override
@@ -118,16 +143,6 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 RFSearchDetailScreen().launch(context);
               },
             ),
-            TextButton(
-              onPressed: () {
-                //
-              },
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Text('Búsqueda Avanzada',
-                    style: primaryTextStyle(), textAlign: TextAlign.end),
-              ),
-            )
           ],
         ),
         subWidget: Column(
@@ -180,6 +195,14 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                IconButton(
+                  icon: Icon(
+                    isListView ? Icons.grid_view : Icons.view_list,
+                    color: rf_primaryColor,
+                  ),
+                  onPressed: toggleViewMode,
+                  tooltip: isListView ? 'Ver como mosaico' : 'Ver como lista',
+                ),
                 Text('Más lugares por conocer', style: boldTextStyle()),
                 TextButton(
                   onPressed: () {
@@ -199,86 +222,32 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               Center(child: CircularProgressIndicator(color: rf_primaryColor))
             else if (error.isNotEmpty)
               Center(child: Text(error, style: TextStyle(color: Colors.red)))
-            else
+            else if (isListView)
+              // Vista en lista
               ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
-                itemCount: filteredProperties.take(3).length,
+                itemCount: filteredProperties.take(8).length,
                 itemBuilder: (BuildContext context, int index) {
                   Property data = filteredProperties[index];
                   return RFPropertyListComponent(propertyData: data);
                 },
-              ),
-/*
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Ubicaciones', style: boldTextStyle()),
-                TextButton(
-                  onPressed: () {
-                    RFLocationViewAllScreen(locationWidth: true)
-                        .launch(context);
-                  },
-                  child: Text('Ver Todo',
-                      style: secondaryTextStyle(
-                          decoration: TextDecoration.underline)),
-                )
-              ],
-            ).paddingOnly(left: 16, right: 16, bottom: 8),
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: List.generate(locationListData.length, (index) {
-                return RFLocationComponent(
-                    locationData: locationListData[index]);
-              }),
-            ),
-            
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Propiedades Destacadas', style: boldTextStyle()),
-                TextButton(
-                  onPressed: () {
-                    RFViewAllPropertiesScreen(
-                      properties: propertyListData
-                          .where((property) => property.isFeatured == 1)
-                          .toList(),
-                      title: "Propiedades Destacadas",
-                    ).launch(context);
-                  },
-                  child: Text('Ver Todo',
-                      style: secondaryTextStyle(
-                          decoration: TextDecoration.underline)),
-                )
-              ],
-            ).paddingOnly(left: 16, right: 16, top: 16, bottom: 8),
-
-            // Mostrar propiedades destacadas
-            if (isLoading)
-              Center(child: CircularProgressIndicator(color: rf_primaryColor))
-            else if (error.isNotEmpty)
-              Center(child: Text(error, style: TextStyle(color: Colors.red)))
+              )
             else
-              ListView.builder(
+              // Vista en mosaico
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: propertyListData
-                    .where((property) => property.isFeatured == 1)
-                    .take(3)
-                    .length,
-                itemBuilder: (BuildContext context, int index) {
-                  Property data = propertyListData
-                      .where((property) => property.isFeatured == 1)
-                      .toList()[index];
-                  return RFPropertyListComponent(propertyData: data);
-                },
+                child: Wrap(
+                  spacing: 16,
+                  runSpacing: 0,
+                  alignment: WrapAlignment.spaceBetween,
+                  children: filteredProperties.take(8).map((data) {
+                    return RFPropertyGridComponent(propertyData: data);
+                  }).toList(),
+                ),
               ),
-              */
           ],
         ),
       ),
