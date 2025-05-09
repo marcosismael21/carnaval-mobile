@@ -19,7 +19,6 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
     RFHomeFragment(),
     RFSearchFragment(),
     RFSettingsFragment(),
-    //RFAccountFragment(),
   ];
 
   Widget _bottomTab() {
@@ -34,7 +33,8 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined, size: 22),
           label: 'Inicio',
-          activeIcon: Icon(Icons.home_outlined, color: rf_primaryColor, size: 22),
+          activeIcon:
+              Icon(Icons.home_outlined, color: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
           icon: rf_search.iconImage(),
@@ -44,13 +44,9 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
         BottomNavigationBarItem(
           icon: rf_setting.iconImage(size: 22),
           label: 'Configuración',
-          activeIcon: rf_setting.iconImage(iconColor: rf_primaryColor, size: 22),
+          activeIcon:
+              rf_setting.iconImage(iconColor: rf_primaryColor, size: 22),
         ),
-        /*BottomNavigationBarItem(
-          icon: rf_person.iconImage(),
-          label: 'Account',
-          activeIcon: rf_person.iconImage(iconColor: rf_primaryColor),
-        ),*/
       ],
     );
   }
@@ -68,7 +64,8 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
   }
 
   void init() async {
-    setStatusBarColor(rf_primaryColor, statusBarIconBrightness: Brightness.light);
+    setStatusBarColor(rf_primaryColor,
+        statusBarIconBrightness: Brightness.light);
   }
 
   @override

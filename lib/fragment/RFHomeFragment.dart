@@ -20,6 +20,7 @@ class RFHomeFragment extends StatefulWidget {
 
 class _RFHomeFragmentState extends State<RFHomeFragment> {
   List<CategoryModel> categoryData = categoryList();
+  TextEditingController homeSearchController = TextEditingController();
 
   // Para los datos de nuestra API
   List<Property> propertyListData = [];
@@ -124,7 +125,8 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
                 style: boldTextStyle(size: 18)),
             16.height,
             AppTextField(
-              textFieldType: TextFieldType.EMAIL,
+              controller: homeSearchController,
+              textFieldType: TextFieldType.OTHER,
               decoration: rfInputDecoration(
                 hintText: "Buscar dirección o cerca de ti",
                 showPreFixIcon: true,
@@ -140,7 +142,8 @@ class _RFHomeFragmentState extends State<RFHomeFragment> {
               child: Text('Buscar Ahora', style: boldTextStyle(color: white)),
               width: context.width(),
               onTap: () {
-                RFSearchDetailScreen().launch(context);
+                RFSearchDetailScreen(initialQuery: homeSearchController.text)
+                    .launch(context);
               },
             ),
           ],
