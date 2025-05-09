@@ -13,7 +13,7 @@ class RFViewAllPropertiesScreen extends StatefulWidget {
   const RFViewAllPropertiesScreen({
     Key? key,
     this.properties,
-    this.title = "Propiedades Recientemente Añadidas",
+    this.title = "¿Qué te interesa conocer?",
   }) : super(key: key);
 
   @override
@@ -31,8 +31,7 @@ class _RFViewAllPropertiesScreenState extends State<RFViewAllPropertiesScreen> {
   void initState() {
     super.initState();
     if (widget.properties != null && widget.properties!.isNotEmpty) {
-      propertyList = widget.properties!;
-      isLoading = false;
+      fetchAllProperties();
     } else {
       fetchAllProperties();
     }
@@ -45,7 +44,7 @@ class _RFViewAllPropertiesScreenState extends State<RFViewAllPropertiesScreen> {
         error = '';
       });
       
-      final properties = await _propertyService.getAllProperties();
+      final properties = await _propertyService.getAllProperties2();
       setState(() {
         propertyList = properties;
         isLoading = false;

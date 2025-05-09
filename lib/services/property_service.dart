@@ -26,6 +26,27 @@ class PropertyService {
     }
   }
 
+     Future<List<Property>> getAllProperties2() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/all'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> resp = json.decode(response.body);
+        if (resp['success'] && resp['data'] != null) {
+          return (resp['data']['properties'] as List)
+              .map((json) => Property.fromJson(json))
+              .toList();
+        }
+      }
+      return [];
+    } catch (e) {
+      print('Error al obtener las propiedades: $e');
+      throw Exception('Error al obtener las propiedades del servidor.');
+    }
+  }
+
   Future<Property?> getPropertyById(int id) async {
     try {
       final response = await http.get(
