@@ -292,14 +292,14 @@ PreferredSizeWidget commonAppBarWidget(BuildContext context,
       backgroundColor: rf_primaryColor,
       centerTitle: true,
       leading: showLeadingIcon.validate()
-          ? SizedBox()
-          : IconButton(
+          ? IconButton(
               onPressed: () {
                 finish(context);
               },
               icon: Icon(Icons.arrow_back_ios_new, color: whiteColor, size: 18),
               color: rf_primaryColor,
-            ),
+            )
+          : null,
       elevation: 0,
       shape: roundCornerShape.validate()
           ? RoundedRectangleBorder(
