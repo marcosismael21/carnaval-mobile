@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/components/RFPropertyListComponent.dart';
 import 'package:room_finder_flutter/models/PropertyModel.dart';
+import 'package:room_finder_flutter/screens/RFWebViewScreen%20.dart';
 import 'package:room_finder_flutter/services/property_service.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RFPropertyDescriptionScreen extends StatefulWidget {
   final int propertyId;
@@ -53,28 +56,6 @@ class _RFPropertyDescriptionScreenState
     }
   }
 
-  Widget _buildAmenityChip(String amenity) {
-    return Chip(
-      label: Text(
-        amenity.replaceAll('-', ' ').capitalize(),
-        style: secondaryTextStyle(size: 12, color: white),
-      ),
-      backgroundColor: rf_primaryColor.withOpacity(0.7),
-      visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-    );
-  }
-
-  Widget _buildPetChip(String pet) {
-    return Chip(
-      label: Text(
-        pet == 'dogs-allowed' ? 'Perros permitidos' : 'Gatos permitidos',
-        style: secondaryTextStyle(size: 12, color: white),
-      ),
-      backgroundColor: Colors.green.withOpacity(0.7),
-      visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,14 +92,36 @@ class _RFPropertyDescriptionScreenState
                   Expanded(
                     child: AppButton(
                       color: rf_primaryColor,
-                      text: propertyData!.status == 'for-rent'
-                          ? 'Contactar al anfitrión'
-                          : 'Contactar al vendedor',
+                      text: '¡Llévame allá!',
                       textStyle: boldTextStyle(color: white),
                       width: context.width(),
-                      onTap: () {
-                        // Acción para contactar
-                        toast('Función de contacto por implementar');
+                      onTap: () async {
+                        /*String lat = propertyData!.lat;
+                        String lng = propertyData!.lng;
+
+                        String googleDirectionsUrl =
+                            'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng&travelmode=driving';
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                WebViewScreen(url: googleDirectionsUrl),
+                          ),
+                        );*/
+                        String lat = propertyData!.lat;
+                        String lng = propertyData!.lng;
+
+                        String openStreetMapUrl =
+                            'https://www.openstreetmap.org/?mlat=$lat&mlon=$lng#map=16/$lat/$lng';
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                WebViewScreen(url: openStreetMapUrl),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -187,82 +190,28 @@ class _RFPropertyDescriptionScreenState
                                         Expanded(
                                           child: Text(
                                             propertyData!.title,
-                                            style: boldTextStyle(size: 18),
+                                            style: boldTextStyle(size: 20),
                                           ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              propertyData!.status == 'for-rent'
-                                                  ? 'Por mes'
-                                                  : 'En venta',
-                                              style: secondaryTextStyle(),
-                                            ),
-                                          ],
                                         ),
                                       ],
                                     ),
 
                                     // Ubicación
-                                    8.height,
+                                    20.height,
                                     Row(
                                       children: [
                                         Icon(Icons.location_on,
-                                            color: rf_primaryColor, size: 16),
+                                            color: rf_primaryColor, size: 30),
                                         8.width,
                                         Expanded(
                                           child: Text(
-                                            '${propertyData!.address}, ${propertyData!.city}, ${propertyData!.state}',
-                                            style: secondaryTextStyle(),
+                                            '${propertyData!.address}',
+                                            style:
+                                                secondaryTextStyle().copyWith(
+                                              fontSize: 15,
+                                            ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-
-                                    // Detalles principales
-                                    16.height,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        if (propertyData!.bedrooms > 0)
-                                          Column(
-                                            children: [
-                                              Icon(Icons.bed,
-                                                  color: rf_primaryColor),
-                                              4.height,
-                                              Text(
-                                                  '${propertyData!.bedrooms} Hab',
-                                                  style:
-                                                      boldTextStyle(size: 14)),
-                                            ],
-                                          ),
-                                        if (propertyData!.bathrooms != "0.0")
-                                          Column(
-                                            children: [
-                                              Icon(Icons.bathtub_outlined,
-                                                  color: rf_primaryColor),
-                                              4.height,
-                                              Text(
-                                                  '${propertyData!.bathrooms} Baño',
-                                                  style:
-                                                      boldTextStyle(size: 14)),
-                                            ],
-                                          ),
-                                        if (propertyData!.parkingSpaces > 0)
-                                          Column(
-                                            children: [
-                                              Icon(Icons.directions_car,
-                                                  color: rf_primaryColor),
-                                              4.height,
-                                              Text(
-                                                  '${propertyData!.parkingSpaces} Park',
-                                                  style:
-                                                      boldTextStyle(size: 14)),
-                                            ],
-                                          ),
                                       ],
                                     ),
 
@@ -272,117 +221,248 @@ class _RFPropertyDescriptionScreenState
                                     8.height,
                                     Text(
                                       propertyData!.description,
-                                      style: secondaryTextStyle(),
+                                      style: secondaryTextStyle().copyWith(
+                                        fontSize: 15,
+                                      ),
                                       textAlign: TextAlign.justify,
                                     ),
-
-                                    // Comodidades
-                                    16.height,
-                                    if (propertyData!.amenities.isNotEmpty) ...[
-                                      Text('Comodidades',
-                                          style: boldTextStyle()),
-                                      8.height,
-                                      Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
-                                        children: propertyData!.amenities
-                                            .map((amenity) =>
-                                                _buildAmenityChip(amenity))
-                                            .toList(),
-                                      ),
-                                    ],
-
-                                    // Mascotas permitidas
-                                    16.height,
-                                    if (propertyData!
-                                        .petsAllowed.isNotEmpty) ...[
-                                      Text('Mascotas', style: boldTextStyle()),
-                                      8.height,
-                                      Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
-                                        children: propertyData!.petsAllowed
-                                            .map((pet) => _buildPetChip(pet))
-                                            .toList(),
-                                      ),
-                                    ],
-
-                                    // Información del anfitrión
-                                    16.height,
-                                    if (propertyData!.hostName != null) ...[
-                                      Text('Anfitrión', style: boldTextStyle()),
-                                      8.height,
+                                    // Galería de fotos
+                                    /*16.height,
+                                    if (propertyData!.additionalImages !=
+                                            null &&
+                                        propertyData!
+                                            .additionalImages!.isNotEmpty) ...[
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          propertyData!.hostProfileImage != null
-                                              ? rfCommonCachedNetworkImage(
-                                                  propertyData!
-                                                      .hostProfileImage!,
-                                                  height: 50,
-                                                  width: 50,
-                                                  fit: BoxFit.cover,
-                                                ).cornerRadiusWithClipRRect(25)
-                                              : CircleAvatar(
-                                                  radius: 25,
-                                                  backgroundColor:
-                                                      rf_primaryColor,
-                                                  child: Icon(Icons.person,
-                                                      color: white),
-                                                ),
-                                          16.width,
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(propertyData!.hostName!,
-                                                  style: boldTextStyle()),
-                                              if (propertyData!
-                                                      .hostAverageRating !=
-                                                  null)
-                                                Row(
-                                                  children: [
-                                                    Icon(Icons.star,
-                                                        color: Colors.amber,
-                                                        size: 16),
-                                                    4.width,
-                                                    Text(
-                                                        '${propertyData!.hostAverageRating}'),
-                                                    if (propertyData!
-                                                            .hostReviewCount !=
-                                                        null) ...[
-                                                      4.width,
-                                                      Text(
-                                                          '(${propertyData!.hostReviewCount} reseñas)',
-                                                          style:
-                                                              secondaryTextStyle(
-                                                                  size: 12)),
-                                                    ],
-                                                  ],
-                                                ),
-                                            ],
-                                          ),
+                                          Text('Fotos', style: boldTextStyle()),
+                                          if (propertyData!
+                                                  .additionalImages!.length >
+                                              4)
+                                            TextButton(
+                                              onPressed: () {
+                                                // Implementar visualización de todas las fotos
+                                                toast('Ver todas las fotos');
+                                              },
+                                              child: Text(
+                                                'Ver todas',
+                                                style: secondaryTextStyle(
+                                                    color: rf_primaryColor),
+                                              ),
+                                            ),
                                         ],
                                       ),
+                                      8.height,
+                                      Container(
+                                        height: 120,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: propertyData!
+                                                      .additionalImages!
+                                                      .length >
+                                                  4
+                                              ? 4
+                                              : propertyData!
+                                                  .additionalImages!.length,
+                                          itemBuilder: (context, index) {
+                                            if (index == 3 &&
+                                                propertyData!.additionalImages!
+                                                        .length >
+                                                    4) {
+                                              // Para la cuarta imagen, si hay más de 4
+                                              return Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 160,
+                                                    margin: EdgeInsets.only(
+                                                        right: 8),
+                                                    decoration:
+                                                        boxDecorationWithRoundedCorners(
+                                                      borderRadius: radius(8),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      child:
+                                                          rfCommonCachedNetworkImage(
+                                                        propertyData!
+                                                                .additionalImages![
+                                                            index],
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned.fill(
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: black
+                                                            .withOpacity(0.5),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          '+${propertyData!.additionalImages!.length - 3}',
+                                                          style: boldTextStyle(
+                                                              color: white,
+                                                              size: 20),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ).onTap(() {
+                                                    toast(
+                                                        'Ver todas las fotos');
+                                                  }),
+                                                ],
+                                              );
+                                            } else {
+                                              // Para las primeras 3 imágenes o si hay menos de 4
+                                              return Container(
+                                                width: 160,
+                                                margin:
+                                                    EdgeInsets.only(right: 8),
+                                                decoration:
+                                                    boxDecorationWithRoundedCorners(
+                                                  borderRadius: radius(8),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child:
+                                                      rfCommonCachedNetworkImage(
+                                                    propertyData!
+                                                            .additionalImages![
+                                                        index],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ).onTap(() {
+                                                // Acción al hacer tap en una imagen
+                                                toast(
+                                                    'Ver imagen ${index + 1}');
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      ),
                                     ],
-
-                                    // Mapa de ubicación
+*/
                                     16.height,
-                                    Text('Ubicación', style: boldTextStyle()),
+                                    Text('Fotos', style: boldTextStyle()),
                                     8.height,
-                                    Container(
-                                      height: 200,
-                                      decoration:
-                                          boxDecorationWithRoundedCorners(
-                                        borderRadius: radius(8),
-                                        backgroundColor:
-                                            context.scaffoldBackgroundColor,
+                                    if (propertyData!.additionalImages !=
+                                            null &&
+                                        propertyData!
+                                            .additionalImages!.isNotEmpty)
+                                      Container(
+                                        height: 120,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: propertyData!
+                                                      .additionalImages!
+                                                      .length >
+                                                  4
+                                              ? 4
+                                              : propertyData!
+                                                  .additionalImages!.length,
+                                          itemBuilder: (context, index) {
+                                            if (index == 3 &&
+                                                propertyData!.additionalImages!
+                                                        .length >
+                                                    4) {
+                                              return Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 160,
+                                                    margin: EdgeInsets.only(
+                                                        right: 8),
+                                                    decoration:
+                                                        boxDecorationWithRoundedCorners(
+                                                      borderRadius: radius(8),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      child:
+                                                          rfCommonCachedNetworkImage(
+                                                        propertyData!
+                                                                .additionalImages![
+                                                            index],
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned.fill(
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: black
+                                                            .withOpacity(0.5),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          '+${propertyData!.additionalImages!.length - 3}',
+                                                          style: boldTextStyle(
+                                                              color: white,
+                                                              size: 20),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ).onTap(() {
+                                                    toast(
+                                                        'Ver todas las fotos');
+                                                  }),
+                                                ],
+                                              );
+                                            } else {
+                                              return Container(
+                                                width: 160,
+                                                margin:
+                                                    EdgeInsets.only(right: 8),
+                                                decoration:
+                                                    boxDecorationWithRoundedCorners(
+                                                  borderRadius: radius(8),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  child:
+                                                      rfCommonCachedNetworkImage(
+                                                    propertyData!
+                                                            .additionalImages![
+                                                        index],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ).onTap(() {
+                                                toast(
+                                                    'Ver imagen ${index + 1}');
+                                              });
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    else
+                                      Container(
+                                        height: 120,
+                                        decoration:
+                                            boxDecorationWithRoundedCorners(
+                                          backgroundColor: Colors.grey.shade100,
+                                          borderRadius: radius(8),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            'Sin fotos extras por el momento',
+                                            style: secondaryTextStyle(),
+                                          ),
+                                        ),
                                       ),
-                                      child: Center(
-                                        child: Text('Mapa por implementar',
-                                            style: secondaryTextStyle()),
-                                      ),
-                                    ),
-
                                     // Espacio al final para evitar que el botón de acción cubra contenido
                                     32.height,
                                   ],
