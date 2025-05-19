@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:room_finder_flutter/components/RFPropertyListComponent.dart';
 import 'package:room_finder_flutter/models/PropertyModel.dart';
 import 'package:room_finder_flutter/screens/RFWebViewScreen%20.dart';
 import 'package:room_finder_flutter/services/property_service.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RFPropertyDescriptionScreen extends StatefulWidget {
   final int propertyId;

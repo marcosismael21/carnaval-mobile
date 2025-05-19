@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSearchFragment.dart';
+import 'package:room_finder_flutter/fragment/RFHomeWebViewFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
@@ -17,7 +17,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
 
   var _pages = [
     RFHomeFragment(),
-    RFSearchFragment(),
+    RFHomeWebViewFragment(),
     RFSettingsFragment(),
   ];
 
@@ -37,9 +37,9 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
               Icon(Icons.home_outlined, color: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
-          icon: rf_search.iconImage(),
-          label: 'Buscar',
-          activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
+          icon: Icon(Icons.language, size: 22),
+          label: 'Web Oficial',
+          activeIcon: Icon(Icons.language, color: rf_primaryColor, size: 22),
         ),
         BottomNavigationBarItem(
           icon: rf_setting.iconImage(size: 22),
