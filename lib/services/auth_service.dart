@@ -55,32 +55,10 @@ class AuthService {
           (decoded['success'] == true || decoded.containsKey('data'))) {
         print('Registro exitoso. Datos de usuario: ${decoded['data']}');
 
-        // Extraer los datos del usuario y tokens
-        final userData = decoded['data'];
-
-        // Guardar tokens si están presentes
-        if (userData.containsKey('token') &&
-            userData.containsKey('refreshToken')) {
-          await tokenService.saveTokens(
-              userData['token'], userData['refreshToken']);
-        }
-
-        // Guardar datos del usuario
-        final prefs = await SharedPreferences.getInstance();
-        if (userData.containsKey('id'))
-          await prefs.setString('userId', userData['id']);
-        if (userData.containsKey('first_name'))
-          await prefs.setString('userFirstName', userData['first_name']);
-        if (userData.containsKey('last_name'))
-          await prefs.setString('userLastName', userData['last_name']);
-        if (userData.containsKey('email'))
-          await prefs.setString('userEmail', userData['email']);
-
-        // Verificar si la estructura de datos es la esperada
+        // Return the data object directly
         if (decoded.containsKey('data')) {
           return decoded['data'];
         } else {
-          // Si la respuesta es exitosa pero no tiene el formato esperado, adaptar
           return decoded;
         }
       } else {
@@ -130,29 +108,7 @@ class AuthService {
           (decoded['success'] == true || decoded.containsKey('data'))) {
         print('Login exitoso. Datos recibidos: ${decoded['data']}');
 
-        // Extraer los datos del usuario y tokens
-        final userData =
-            decoded.containsKey('data') ? decoded['data'] : decoded;
-
-        // Guardar tokens si están presentes
-        if (userData.containsKey('token') &&
-            userData.containsKey('refreshToken')) {
-          await tokenService.saveTokens(
-              userData['token'], userData['refreshToken']);
-        }
-
-        // Guardar datos del usuario
-        final prefs = await SharedPreferences.getInstance();
-        if (userData.containsKey('id'))
-          await prefs.setString('userId', userData['id']);
-        if (userData.containsKey('first_name'))
-          await prefs.setString('userFirstName', userData['first_name']);
-        if (userData.containsKey('last_name'))
-          await prefs.setString('userLastName', userData['last_name']);
-        if (userData.containsKey('email'))
-          await prefs.setString('userEmail', userData['email']);
-
-        // Similar al registro, adaptar a diferentes estructuras posibles
+        // Return the data object directly
         if (decoded.containsKey('data')) {
           return decoded['data'];
         } else {

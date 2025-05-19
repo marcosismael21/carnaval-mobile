@@ -16,16 +16,25 @@ class RFSettingsFragment extends StatefulWidget {
 
 class _RFSettingsFragmentState extends State<RFSettingsFragment> {
   final List<RoomFinderModel> settingData = settingList();
+  String? userName;
 
   @override
   void initState() {
     super.initState();
     init();
+    loadUserName();
   }
 
   void init() async {
     setStatusBarColor(rf_primaryColor,
         statusBarIconBrightness: Brightness.light);
+  }
+
+  // Load user name from shared preferences
+  void loadUserName() async {
+    // Replace getValue with getStringAsync from nb_utils
+    userName = await getStringAsync('user_name');
+    setState(() {});
   }
 
   @override
@@ -84,7 +93,12 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
         subWidget: Column(
           children: [
             16.height,
-            Text('Courtney Henry', style: boldTextStyle(size: 18)),
+            // Dynamic username display
+            Text(
+                userName != null && userName!.isNotEmpty
+                    ? 'Hola, $userName'
+                    : '',
+                style: boldTextStyle(size: 18)),
             8.height,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +158,13 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                           onCancel: (v) {
                             finish(context);
                           },
-                          onAccept: (v) {
+                          onAccept: (v) async {
+                            // Clear user data on logout
+                            await removeKey('user_token');
+                            await removeKey('user_id');
+                            await removeKey('is_logged_in');
+                            await removeKey('user_name');
+
                             RFEmailSignInScreen().launch(v).then((value) {
                               finish(context);
                             });

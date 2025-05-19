@@ -38,10 +38,10 @@ List<CategoryModel> categoryList() {
 
 List<RoomFinderModel> settingList() {
   List<RoomFinderModel> settingListData = [];
-  settingListData.add(RoomFinderModel(
+  /*settingListData.add(RoomFinderModel(
       img: rf_recent_view,
       roomCategoryName: "Vistos recientemente",
-      newScreenWidget: RFRecentlyViewedScreen()));
+      newScreenWidget: RFRecentlyViewedScreen()));*/
   settingListData.add(RoomFinderModel(
       img: rf_about_us,
       roomCategoryName: "Sobre nosotros",

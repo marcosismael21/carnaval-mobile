@@ -159,7 +159,7 @@ class _RFSignUpScreenState extends State<RFSignUpScreen> {
 
         // Redirigimos al usuario a la pantalla de inicio de sesión
         print('Redirigiendo a pantalla de inicio de sesión');
-        RFEmailSignInScreen(showDialog: true).launch(context);
+        RFEmailSignInScreen().launch(context);
       } else {
         throw Exception('No se recibieron los datos de usuario esperados');
       }
