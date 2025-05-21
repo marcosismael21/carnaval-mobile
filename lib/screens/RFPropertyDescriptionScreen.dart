@@ -26,6 +26,7 @@ class _RFPropertyDescriptionScreenState
   bool isLoading = true;
   String error = '';
   String? userName;
+  String? email;
   String? userId;
 
   List<Review> reviews = [];
@@ -46,6 +47,7 @@ class _RFPropertyDescriptionScreenState
   void loadUserInfo() async {
     userName = await getStringAsync('user_name');
     userId = await getStringAsync('user_id');
+    email = await getStringAsync('user_email');
     setState(() {});
   }
 

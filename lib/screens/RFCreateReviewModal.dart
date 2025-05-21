@@ -15,117 +15,125 @@ class RFCreateReviewModal extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RFCreateReviewModalState createState() => _RFCreateReviewModalState();
+  State<RFCreateReviewModal> createState() => _RFCreateReviewModalState();
 }
 
 class _RFCreateReviewModalState extends State<RFCreateReviewModal> {
-  final TextEditingController commentController = TextEditingController();
-  int rating = 0;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController commentController = TextEditingController();
+  double rating = 0;
+  String userName = '';
+  String userId = '';
+  String userEmail = '';
   bool isSubmitting = false;
-
-  String? userName;
-  String? userId;
-
-  final ReviewService _reviewService = ReviewService();
 
   @override
   void initState() {
     super.initState();
-    loadUserInfo();
+    loadUserData();
   }
 
-  void loadUserInfo() async {
+  Future<void> loadUserData() async {
     userName = await getStringAsync('user_name');
     userId = await getStringAsync('user_id');
+    userEmail = await getStringAsync('user_email');
     setState(() {});
   }
 
   Future<void> submitReview() async {
-    if (rating == 0 || commentController.text.trim().isEmpty) {
-      toast('Por favor completa todos los campos');
+    if (!_formKey.currentState!.validate() || rating == 0) {
+      toast(
+          'Por favor completa todos los campos y selecciona una calificación.');
       return;
     }
 
-    setState(() => isSubmitting = true);
+    setState(() {
+      isSubmitting = true;
+    });
 
-    Review newReview = Review(
-      reviewerName: userName?.trim() ?? '',
-      reviewerId: int.tryParse(userId ?? '0') ?? 0,
-      comment: commentController.text.trim(),
-      rating: rating,
+    Review review = Review(
       propertyId: widget.propertyId,
+      reviewerId: int.tryParse(userId) ?? 0,
+      reviewerName: userName.trim(),
+      email: userEmail.trim(),
+      rating: rating.toInt(),
+      comment: commentController.text.trim(),
     );
 
-    bool success = await _reviewService.createReview(newReview);
+    bool success = await ReviewService().createReview(review);
 
-    setState(() => isSubmitting = false);
+    setState(() {
+      isSubmitting = false;
+    });
 
     if (success) {
-      toast('Reseña enviada con éxito');
+      toast('Reseña enviada exitosamente');
       widget.onReviewSubmitted();
       finish(context);
     } else {
-      toast('Ocurrió un error al enviar la reseña');
+      toast('Error al enviar la reseña');
     }
+  }
+
+  InputDecoration _inputDecoration({required String labelText}) {
+    return InputDecoration(
+      labelText: labelText,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
-      child: Container(
-        padding: EdgeInsets.all(16),
-        decoration: boxDecorationWithRoundedCorners(
-          borderRadius: radiusOnly(topLeft: 16, topRight: 16),
-          backgroundColor: context.cardColor,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Escribe una reseña', style: boldTextStyle(size: 18)),
-              16.height,
-              TextField(
-                controller: commentController,
-                maxLines: 3,
-                decoration: inputDecoration(labelText: "Comentario"),
-              ),
-              16.height,
-              Text('Calificación', style: secondaryTextStyle()),
-              8.height,
-              Row(
-                children: List.generate(5, (index) {
-                  int star = index + 1;
-                  return IconButton(
-                    icon: Icon(
-                      star <= rating ? Icons.star : Icons.star_border,
-                      color: rf_primaryColor,
-                    ),
-                    onPressed: () => setState(() => rating = star),
-                  );
-                }),
-              ),
-              16.height,
-              AppButton(
-                text: isSubmitting ? 'Enviando...' : 'Enviar',
-                color: rf_primaryColor,
-                textStyle: boldTextStyle(color: white),
-                width: context.width(),
-                onTap: isSubmitting ? null : submitReview,
-              ),
-            ],
-          ),
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: boxDecorationWithRoundedCorners(
+        borderRadius: radiusOnly(topLeft: 20, topRight: 20),
+        backgroundColor: context.cardColor,
+      ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Deja una reseña', style: boldTextStyle(size: 18)),
+            16.height,
+            TextFormField(
+              controller: commentController,
+              maxLines: 3,
+              decoration: _inputDecoration(labelText: "Comentario"),
+              validator: (value) =>
+                  value!.isEmpty ? 'Por favor ingresa un comentario' : null,
+            ),
+            16.height,
+            Row(
+              children: List.generate(5, (index) {
+                return IconButton(
+                  icon: Icon(
+                    Icons.star,
+                    color: index < rating ? Colors.amber : Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      rating = (index + 1).toDouble();
+                    });
+                  },
+                );
+              }),
+            ),
+            16.height,
+            isSubmitting
+                ? CircularProgressIndicator(color: rf_primaryColor)
+                : AppButton(
+                    text: 'Enviar',
+                    color: rf_primaryColor,
+                    textStyle: boldTextStyle(color: white),
+                    onTap: submitReview,
+                    width: context.width(),
+                  ),
+          ],
         ),
       ),
-    );
-  }
-
-  InputDecoration inputDecoration({required String labelText}) {
-    return InputDecoration(
-      labelText: labelText,
-      border: OutlineInputBorder(),
-      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
     );
   }
 }

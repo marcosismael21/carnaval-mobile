@@ -52,9 +52,9 @@ class Review {
       );
 
   Map<String, dynamic> toJson() => {
+        "user_id": reviewerId,
         "property_id": propertyId,
         "rating": rating,
-        "comment": comment,
-        "userId": reviewerId,
+        "comment": comment
       };
 }

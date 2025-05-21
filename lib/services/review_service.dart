@@ -8,14 +8,22 @@ class ReviewService {
   Future<List<Review>> getReviewsByPropertyId(int propertyId) async {
     try {
       final response = await http.get(
-        Uri.parse('$_baseUrl/$propertyId'),
+        Uri.parse('$_baseUrl'),
         headers: {'Content-Type': 'application/json'},
       );
       if (response.statusCode == 200) {
         final Map<String, dynamic> resp = json.decode(response.body);
-        if (resp['success'] && resp['data'] != null) {
-          final data = resp['data'];
-          return [Review.fromJson(data)];
+        if (resp['success'] &&
+            resp['data'] != null &&
+            resp['data']['reviews'] != null) {
+          final List<dynamic> reviewsData = resp['data']['reviews'];
+          List<Review> allReviews =
+              reviewsData.map((data) => Review.fromJson(data)).toList();
+
+          // Filter reviews by propertyId
+          return allReviews
+              .where((review) => review.propertyId == propertyId)
+              .toList();
         }
       }
       return [];
@@ -28,7 +36,7 @@ class ReviewService {
   Future<bool> createReview(Review review) async {
     try {
       final response = await http.post(
-        Uri.parse(_baseUrl),
+        Uri.parse('$_baseUrl'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(review.toJson()),
       );
