@@ -149,7 +149,7 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                         .iconImage(iconColor: rf_primaryColor, size: 18),
                     titleTextStyle: primaryTextStyle(),
                     onTap: () {
-                      if (index == 2) {
+                      if (index == 1) {
                         showConfirmDialogCustom(
                           context,
                           cancelable: false,
@@ -159,15 +159,18 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
                             finish(context);
                           },
                           onAccept: (v) async {
-                            // Clear user data on logout
-                            await removeKey('user_token');
-                            await removeKey('user_id');
-                            await removeKey('is_logged_in');
-                            await removeKey('user_name');
+                            try {
+                              // Clear user data on logout
+                              await removeKey('user_token');
+                              await removeKey('user_id');
+                              await removeKey('is_logged_in');
+                              await removeKey('user_name');
 
-                            RFEmailSignInScreen().launch(v).then((value) {
-                              finish(context);
-                            });
+                              // Navegar y limpiar toda la pila
+                              RFEmailSignInScreen().launch(context, isNewTask: true);
+                            } catch (e) {
+                              print('Error durante logout: $e');
+                            }
                           },
                         );
                       } else {

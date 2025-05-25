@@ -1,0 +1,2 @@
+C:/FlutterProjects/room-finder-flutter/android/app/.cxx/RelWithDebInfo/511746m1/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/FlutterProjects/room-finder-flutter/android/app/.cxx/RelWithDebInfo/511746m1/armeabi-v7a/CMakeFiles/rebuild_cache.dir

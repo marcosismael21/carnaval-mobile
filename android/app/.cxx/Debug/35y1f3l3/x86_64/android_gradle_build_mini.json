@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "C:\\Users\\marco\\OneDrive\\Datos adjuntos\\Documentos\\flutter\\packages\\flutter_tools\\gradle\\src\\main\\groovy\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\marco\\AppData\\Local\\Android\\sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\FlutterProjects\\room-finder-flutter\\android\\app\\.cxx\\Debug\\35y1f3l3\\x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\marco\\AppData\\Local\\Android\\sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\FlutterProjects\\room-finder-flutter\\android\\app\\.cxx\\Debug\\35y1f3l3\\x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

@@ -134,7 +134,7 @@ class _RFPropertyDescriptionScreenState
                       textStyle: boldTextStyle(color: white),
                       width: context.width(),
                       onTap: () async {
-                        /*String lat = propertyData!.lat;
+                        String lat = propertyData!.lat;
                         String lng = propertyData!.lng;
 
                         String googleDirectionsUrl =
@@ -146,8 +146,8 @@ class _RFPropertyDescriptionScreenState
                             builder: (_) =>
                                 WebViewScreen(url: googleDirectionsUrl),
                           ),
-                        );*/
-                        String lat = propertyData!.lat;
+                        );
+                        /*String lat = propertyData!.lat;
                         String lng = propertyData!.lng;
 
                         String openStreetMapUrl =
@@ -159,7 +159,7 @@ class _RFPropertyDescriptionScreenState
                             builder: (_) =>
                                 WebViewScreen(url: openStreetMapUrl),
                           ),
-                        );
+                        );*/
                       },
                     ),
                   ),
