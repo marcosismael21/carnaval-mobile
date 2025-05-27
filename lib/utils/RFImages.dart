@@ -29,3 +29,4 @@ const rf_location5 = "images/roomFinding/rf_location5.jpg";
 const rf_location6 = "images/roomFinding/rf_location6.jpg";
 const rf_congratulate = "images/roomFinding/rf_congratulate.png";
 const rf_logo = "images/roomFinding/marca_dark.png";
+const rf_logo2 = "images/roomFinding/marca_dark2.png";

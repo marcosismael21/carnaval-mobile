@@ -6,6 +6,6 @@
      <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/marca_dark" />
+            android:src="@mipmap/ic_launcher" />
     </item> 
 </layer-list>

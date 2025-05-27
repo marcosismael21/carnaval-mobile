@@ -56,35 +56,20 @@ class _RFSettingsFragmentState extends State<RFSettingsFragment> {
             children: [
               Container(
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(top: 150),
-                width: 100,
-                height: 100,
-                decoration: boxDecorationWithRoundedCorners(
-                    boxShape: BoxShape.circle,
-                    border: Border.all(color: white, width: 4)),
-                child: rfCommonCachedNetworkImage(rf_user,
-                    fit: BoxFit.cover, width: 100, height: 100, radius: 150),
-              ),
-              Positioned(
-                bottom: 8,
-                right: -4,
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  padding: EdgeInsets.all(6),
-                  decoration: boxDecorationWithRoundedCorners(
-                    backgroundColor: context.cardColor,
-                    boxShape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                          spreadRadius: 0.4,
-                          blurRadius: 3,
-                          color: gray.withOpacity(0.1),
-                          offset: Offset(1, 6)),
-                    ],
-                  ),
-                  child: Icon(Icons.add,
-                      color: appStore.isDarkModeOn ? white : rf_primaryColor,
-                      size: 16),
+                margin: EdgeInsets.only(top: 120),
+                width: 220,
+                height: 220,
+                decoration: BoxDecoration(
+                  color: white, // Agregamos fondo blanco
+                  border: Border.all(color: white, width: 4),
+                  // Eliminamos boxShape: BoxShape.circle para que sea rectangular
+                ),
+                child: rfCommonCachedNetworkImage(
+                  rf_logo,
+                  fit: BoxFit.cover,
+                  width: 220,
+                  height: 220,
+                  radius: 0,
                 ),
               ),
             ],
